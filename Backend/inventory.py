@@ -28,8 +28,7 @@ class Product: # Representing a product in the WMSBNUIS LTD warehouse
         }
 
     @classmethod
-    def from_dict(cls, data: dict):
-        """Deserialize product from dictionary."""
+    def from_dict(cls, data: dict): # Deserialising product from the dictionary stored in
         return cls(
             item_ID=data["item_ID"],
             name=data["name"],
