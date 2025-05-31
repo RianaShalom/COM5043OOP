@@ -1,0 +1,9 @@
+[
+    {
+        "item_ID": "099",
+        "name": "Cheese",
+        "price": 10.0,
+        "quantity": 60,
+        "low_stock_threshold": 10
+    }
+]

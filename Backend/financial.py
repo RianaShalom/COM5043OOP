@@ -52,8 +52,7 @@ class FinancialManager: # Used for generating financial reports and logging purc
     def net_income(self) -> float: # Financial report net income calculated (profit vs loss)
         return self.total_sales() - self.total_purchases()
 
-    def generate_report(self) -> str:
-        """Generate a summary report of finances."""
+    def generate_report(self) -> str: # Generate a summary report of finances
         report = "\n--- Financial Report ---\n"
         report += f"Total Sales: £{self.total_sales():.2f}\n"
         report += f"Total Purchases: £{self.total_purchases():.2f}\n"
