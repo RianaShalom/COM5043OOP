@@ -58,8 +58,7 @@ class TestFinancialManager(unittest.TestCase):
         self.assertEqual(self.fm.total_purchases(), 300.0)
         self.assertEqual(self.fm.total_sales(), 800.0)
 
-    def test_generate_report_content(self):
-        # Test that the generated report string contains key summary info and transaction details
+    def test_generate_report_content(self): # Test that the generated report string contains key summary info and transaction details
         self.fm.record_purchase(100.0, "Purchase 1")
         self.fm.record_sale(150.0, "Sale 1")
         report = self.fm.generate_report()
