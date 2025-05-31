@@ -68,3 +68,41 @@ class CustomerOrder: # Represents a customer order with items and their quantiti
         order.items = data["items"]
         order.total_price = data["total_price"]
         return order
+
+class OrderProcessor: #Handles order creation and stock deduction
+    def __init__(self, inventory_manager: InventoryManager):
+        self.inventory_manager = inventory_manager
+        self.customers: Dict[str, Customer] = {}
+        self.orders: Dict[str, CustomerOrder] = {}
+
+    def add_customer(self, customer: Customer) -> bool: # Adding a new customer (customers can't have the same ID)
+        if customer.customer_id in self.customers:
+            return False
+        self.customers[customer.customer_id] = customer
+        return True
+
+    def create_order(self, order_id: str, customer_id: str, order_date: date, items: Dict[str, int]) -> bool: # Attempt to create a customer order with given item_IDs and quantities
+        if order_id in self.orders or customer_id not in self.customers:
+            return False
+
+        for item_ID, quantity in items.items():
+            product = self.inventory_manager.get_product(item_ID)
+            if not product or product.quantity < quantity:
+                return False # Stock is insufficient
+
+        customer = self.customers[customer_id]
+        order = CustomerOrder(order_id, customer, order_date)
+
+        for item_ID, quantity in items.items():
+            product = self.inventory_manager.get_product(item_ID)
+            order.add_item(item_ID, quantity, product.price)
+            self.inventory_manager.update_stock(item_ID, -quantity) # Stock is being removed
+
+        self.orders[order_id] = order
+        return True
+
+    def get_order(self, order_id: str) -> CustomerOrder: # Retrieve an order by ID
+        return self.orders.get(order_id)
+
+    def list_orders(self) -> List[CustomerOrder]: # View all current orders
+        return list(self.orders.values())
